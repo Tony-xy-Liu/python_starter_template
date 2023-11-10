@@ -53,14 +53,15 @@ class CommandLineInterface:
 COMMANDS = {k:v for k, v in CommandLineInterface.__dict__.items() if k[0]!="_"}
 
 def main():
+    cli = CommandLineInterface()
     if len(sys.argv) <= 1:
-        CommandLineInterface.help()
+        cli.help()
         return
 
     COMMANDS.get(# calls command function with args
         sys.argv[1], 
-        CommandLineInterface.help # default
-    )(sys.argv[2:])
+        cli.help # default
+    )(cli, sys.argv[2:])
 
 if __name__ == "__main__":
     main()
