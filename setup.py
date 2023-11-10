@@ -1,19 +1,14 @@
 import os, sys
 from pathlib import Path
-import setuptools
-
-USER = "hallamlab" # github id
 HERE = Path(os.path.realpath(__file__)).parent
-NAME = os.listdir(HERE.joinpath("src"))[0].lower()
-ENTRY_POINTS =  [
-    f'{NAME} = {NAME}.cli:main',
-    # f'shrt = {NAME}.cli:main', # feel free to abbreviate the command
-]
+sys.path = [str(p) for p in set([
+    HERE.joinpath("src")
+]+sys.path)]
+import setuptools
+from starter_package.utils import USER, NAME, ENTRY_POINTS, VERSION
+
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
-
-with open(HERE.joinpath(f"src/{NAME}/version.txt")) as f:
-    VERSION = f.read()
 
 if __name__ == "__main__":
     setuptools.setup(
@@ -44,7 +39,7 @@ if __name__ == "__main__":
             # "test_package": ["res/*.txt"],
         },
         entry_points={
-            'console_scripts': ENTRY_POINTS,
+            'console_scripts': [f"{e} = {NAME}.cli:main" for e in ENTRY_POINTS],
         },
         python_requires=">=3.11",
         install_requires=[

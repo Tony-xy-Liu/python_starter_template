@@ -1,11 +1,10 @@
 import os, sys
 import argparse
 
-from .utils import Version, GetModuleRoot
+from .utils import NAME, VERSION, ENTRY_POINTS
 from .implementation import some_fn
 
-NAME = GetModuleRoot().name
-CLI_COMMAND = "spk" # for starter package, change this
+CLI_ENTRY = ENTRY_POINTS[0]
 
 def _line():
     try:
@@ -23,7 +22,7 @@ class CommandLineInterface:
     @classmethod
     def run(cls, args):
         parser = ArgumentParser(
-            prog = f'{CLI_COMMAND} outpost',
+            prog = f'{CLI_ENTRY} outpost',
         )
         parser.add_argument('-a', '--param_a', metavar='PATH', help="describe the command", required=True)
         parser.add_argument('-b', '--param_b', action='store_true', default=False, help="am optional boolean flag", required=False)
@@ -38,16 +37,16 @@ class CommandLineInterface:
     @classmethod
     def help(cls, args=None):
         help = [
-            f"{NAME} v{Version()}",
+            f"{NAME} v{VERSION}",
             f"https://github.com/USER/{NAME}",
             f"",
-            f"Syntax: {CLI_COMMAND} COMMAND [OPTIONS]",
+            f"Syntax: {CLI_ENTRY} COMMAND [OPTIONS]",
             f"",
             f"Where COMMAND is one of:",
         ]+[f"- {k}" for k in COMMANDS]+[
             f"",
             f"for additional help, use:",
-            f"{CLI_COMMAND} COMMAND -h/--help",
+            f"{CLI_ENTRY} COMMAND -h/--help",
         ]
         help = "\n".join(help)
         print(help)

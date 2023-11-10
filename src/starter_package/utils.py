@@ -3,12 +3,17 @@ import time
 from datetime import datetime as dt
 from pathlib import Path
 
-def GetModuleRoot():
-    return Path("/".join(os.path.realpath(__file__).split('/')[:-1]))
+USER = "hallamlab" # github id
+MODULE_ROOT = Path("/".join(os.path.realpath(__file__).split('/')[:-1]))
+NAME = MODULE_ROOT.name.lower()
+# can add additional entry points here, like abbreviations
+# ex. ENTRY_POINTS = [NAME, "spk"]
+ENTRY_POINTS = [NAME]
 
-def Version():
-    with open(GetModuleRoot().joinpath("version.txt")) as v:
+def _get_version() -> str:
+    with open(MODULE_ROOT.joinpath("version.txt")) as v:
         return v.readline()
+VERSION = _get_version()
 
 class StdTime:
     FORMAT = '%Y-%m-%d_%H-%M-%S'
